@@ -1,26 +1,33 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 public class PlayerMovement : MonoBehaviour
 {
-    private InputAction moveAction, runAction;
+    private PlayerInteract input;
     private CharacterController cc;
     [SerializeField] private float beginMoveSpeed, beginRunSpeed;
     private float speedRatio = 1f;
+    bool run;
 
     private void Awake()
     {
         cc = GetComponent<CharacterController>();
-        moveAction = InputSystem.actions.FindAction("Move");
-        runAction = InputSystem.actions.FindAction("Sprint");
+        input = GetComponent<PlayerInteract>();
     }
-    private void Update()
+    private void OnEnable()
     {
-        Vector2 move = moveAction.ReadValue<Vector2>();
+        input.move += Move;
+        input.run += Run;
+    }
+    private void OnDisable()
+    {
+        input.move -= Move;
+        input.run-= Run;
+    }
+    private void Move(Vector2 move)
+    {
         Vector3 dir = transform.right * move.x + transform.forward * move.y;
-        bool run = runAction.IsPressed();
+        if (dir.sqrMagnitude > 1f) dir.Normalize();
         cc.Move(dir * (run ? beginRunSpeed : beginMoveSpeed)
             * speedRatio * Time.deltaTime);
-
     }
+    private void Run(bool running) => run = running;
 }

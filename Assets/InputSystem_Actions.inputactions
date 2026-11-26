@@ -95,6 +95,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TurnAround",
+                    "type": "Button",
+                    "id": "1bbff6ad-c62a-4b98-b8a9-c158e2dd6069",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -486,11 +495,22 @@
                 {
                     "name": "",
                     "id": "39c2dd11-0ab4-438b-90f8-2ae046c029e5",
-                    "path": "<Keyboard>/escape",
+                    "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fb3f7205-0f78-4622-b8cc-e7c4882b6a91",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnAround",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

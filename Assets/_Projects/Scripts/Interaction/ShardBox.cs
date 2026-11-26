@@ -1,34 +1,23 @@
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class ShardBox : MonoBehaviour
 {
-    private BoxCollider box;
-    private ShardAnimation shardAnimation;
-    private bool havePicked = false;
-    
     private void Awake()
     {
-        box = GetComponent<BoxCollider>();
-        shardAnimation = GetComponentInChildren<ShardAnimation>();
-    }
-    private void OnEnable()
-    {
-        shardAnimation.disappear += Miss;
-        havePicked = false;
-    }
-    private void OnDisable()
-    {
-        shardAnimation.disappear -= Miss;
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (havePicked) return;
-        if(other.TryGetComponent<PlayerInteract>(out PlayerInteract player))
+        BoxCollider box = GetComponent<BoxCollider>();
+        if (box != null)
         {
-            shardAnimation.PickUp();
-            player.PickUp();
-            havePicked = false;
+            box.isTrigger = true;
         }
     }
-    private void Miss() => gameObject.SetActive(false);
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.TryGetComponent(out PlayerInteract player)) return;
+        if (!player.IsAlive) return;
+
+        player.PickUp(transform.position);
+        gameObject.SetActive(false);
+    }
 }
