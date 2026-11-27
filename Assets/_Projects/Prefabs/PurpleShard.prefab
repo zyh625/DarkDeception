@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4e9c76e904cba41b9035923567f8b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShardBox
+  shardType: 0
 --- !u!65 &1419073839529437830
 BoxCollider:
   m_ObjectHideFlags: 0

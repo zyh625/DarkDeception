@@ -6,6 +6,8 @@
 /[Uu]ser[Ss]ettings/
 /[Bb]uild/
 /[Bb]uilds/
+*_BurstDebugInformation_DoNotShip/
+*_BackUpThisFolder_ButDontShipItWithYourGame/
 /[Mm]emoryCaptures/
 /[Rr]ecordings/
 /.vs/

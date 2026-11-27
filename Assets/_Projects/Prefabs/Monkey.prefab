@@ -56,8 +56,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9980638, y: 0.9612062, z: 0.65653217}
-  m_Center: {x: 0.097869754, y: 0.5040623, z: 0.061953485}
+  m_Size: {x: 0.65, y: 0.96, z: 0.8}
+  m_Center: {x: 0, y: 0.48, z: 0.06}
 --- !u!195 &2948570477404701532
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -69,12 +69,12 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.25
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 12
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 0.9
   m_BaseOffset: 0
@@ -92,9 +92,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ca38f136bea59a4f9d38b8c6a132cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonkeyMovement
-  patrolSpeed: 1
-  trackSpeed: 1.4
-  runSpeed: 1.9
+  patrolSpeed: 1.95
+  trackSpeed: 2.38
+  runSpeed: 2.72
+  patrolTurnSpeedDeg: 400
+  chaseTurnSpeedDeg: 640
+  turnSmoothFactor: 14
+  cornerMinSpeedRatio: 0.8
+  cornerSteerBlend: 0.55
+  moveAcceleration: 15
 --- !u!114 &6275880749954310742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +122,7 @@ MonoBehaviour:
   eyeHeight: 0.7
   playerTargetOffsetY: 0.15
   checkInterval: 0.1
+  catchFallbackRadius: 0.62
   patrolRadius: 6
   idleWaitTime: 1.5
   patrolPoints: []
@@ -130,6 +137,7 @@ GameObject:
   - component: {fileID: 5800688440669933702}
   - component: {fileID: 7202129212876245643}
   - component: {fileID: 2222859590075662584}
+  - component: {fileID: 6246039744466790699}
   m_Layer: 8
   m_Name: MonkeyBox
   m_TagString: Untagged
@@ -171,8 +179,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0184767, y: 1.4111611, z: 1.0396659}
-  m_Center: {x: 0.3022977, y: 0.20558059, z: 0.09177968}
+  m_Size: {x: 0.72, y: 0.96, z: 0.85}
+  m_Center: {x: 0, y: 0.45, z: 0.28}
 --- !u!54 &2222859590075662584
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -222,15 +230,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.45
+      value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.45
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.45
+      value: 0.42
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalPosition.x
@@ -242,11 +250,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.069000006
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalRotation.x
@@ -254,7 +262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalRotation.z
@@ -266,7 +274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -686,7 +694,11 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 455684ecc8ab2fb4cb1c787bb0f0bc8b, type: 2}
     - target: {fileID: 5866666021909216657, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_CullingMode
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6096590559194302766, guid: f2c531615ef979e42a29f721bdee7b57, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -863,4 +875,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonkeyAnimation
   speedDampTime: 0.1
-  finishNormalizedTime: 0.9
+  runAnimReferenceSpeed: 0.88
+  minLocomotionAnimSpeed: 0.95
+  maxLocomotionAnimSpeed: 4.5
+  grabBiteFinishNorm: 0.94
+  punchStompFinishNorm: 0.94
+  armSlamFinishNorm: 0.9
+--- !u!114 &6246039744466790699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6246039744466790601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 292b02fb896dea241a565ead5694bbfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonkeyBox
